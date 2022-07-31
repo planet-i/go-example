@@ -1,0 +1,36 @@
+<!DOCTYPE heml>
+<html lang="an">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" ,inital-scale=1.0>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>>
+</head>
+
+<body>s
+    <div id="app">
+        {{ message }} //差值表达式 模板的语法 把数据和页面结构关联起来
+        <h2>{{school.name}} {{school.mobile }}</h2>
+        <u1>
+            <li>{{{array[0]}}}</li>
+            <li>{{{array[1]}}}</li> //li和u1标签？
+        </u1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',         //#是ID选择器   去管理id叫做app的元素
+            data: {              //是实例中使用到的数据
+                message: 'Hello Vue!',    //message的关联到上面去了
+                school: {
+                    name: "小程序学习",
+                    mobile: "1243-5678-880"
+                },
+                array: ["csl", "佐柒"]
+            }
+        })
+    </script>
+</body>
+
+</html>
