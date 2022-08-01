@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"regexp"
 
-	"github.com/planet-i/goexample1/sample/search"
+	"github.com/planet-i/go-example/sample/search"
 )
 
 type (

@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/planet-i/goexample1/sample/matchers" //注册RSS匹配器
-	"github.com/planet-i/goexample1/sample/search"     //init函数注册默认匹配器
+	_ "github.com/planet-i/go-example/sample/matchers" //注册RSS匹配器
+	"github.com/planet-i/go-example/sample/search"     //init函数注册默认匹配器
 )
 
 func init() {

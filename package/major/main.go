@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/planet-i/goexample0/02_package/stringutil"
-	"github.com/planet-i/goexample0/02_package/winniepooh"
+	"github.com/planet-i/go-example/package/stringutil"
+	"github.com/planet-i/go-example/package/winniepooh"
 )
 
 func main() {

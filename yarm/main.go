@@ -1,6 +1,10 @@
 package main
 
-import "gopkg.in/yaml.v2"
+import (
+	"fmt"
+
+	"gopkg.in/yaml.v2"
+)
 
 type StructA struct {
 	A string `yam1:"a"`
@@ -13,5 +17,7 @@ type StructB struct {
 var b StructB
 
 func main() {
+	var data string
 	err := yaml.Unmarshal([]byte(data), &b)
+	fmt.Println(err)
 }

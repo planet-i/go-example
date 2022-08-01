@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/planet-i/goexample1/work"
+	"github.com/planet-i/go-example/work"
 )
 
 var names = []string{

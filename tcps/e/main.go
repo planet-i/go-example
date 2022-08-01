@@ -1,6 +1,6 @@
 package main
 
-import "github.com/planet-i/goexample1/tcps"
+import "github.com/planet-i/go-example/tcps"
 
 func main() {
 	tcps.Start()

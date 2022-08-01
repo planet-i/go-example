@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/planet-i/goexample1/pool"
+	"github.com/planet-i/go-example/pool"
 )
 
 const (

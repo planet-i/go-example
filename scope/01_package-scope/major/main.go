@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/planet-i/goexample0/04_scope/01_package-scope/vis"
+	"github.com/planet-i/go-example/scope/01_package-scope/vis"
 )
 
 func main() {

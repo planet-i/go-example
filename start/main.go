@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/planet-i/goexample0/start/model"
+	"github.com/planet-i/go-example/start/model"
 )
 
 func main() {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/planet-i/goexample1/cacheExample/cache"
-	http "github.com/planet-i/goexample1/cacheExample/http"
+	"github.com/planet-i/go-example/cacheExample/cache"
+	http "github.com/planet-i/go-example/cacheExample/http"
 )
 
 func main() {

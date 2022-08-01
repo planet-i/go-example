@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/planet-i/goexample1/cacheExample/cache"
+	"github.com/planet-i/go-example/cacheExample/cache"
 )
 
 type Server struct {

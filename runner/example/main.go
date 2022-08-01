@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/planet-i/goexample1/runner"
+	"github.com/planet-i/go-example/runner"
 )
 
 const timeout = 3 * time.Second
