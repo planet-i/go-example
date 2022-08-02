@@ -6,50 +6,14 @@ import (
 )
 
 func main() {
-	//NewError()
-	err := handlePanic()
-	fmt.Println(err)
+	NewError()
 }
 
-func handlePanic() (err error) {
-	//go func() {
-	defer func() {
-		//defer func() {
-		if r := recover(); r != nil {
-			switch x := r.(type) {
-			case string:
-				err = errors.New(x)
-			case error:
-				err = x
-			default:
-				err = fmt.Errorf("Unknown panic:%v", r)
-			}
-		}
-		//}()
-	}()
-	//}()
-	panic("异常信息")
-}
-
-func Arecover() (err error) {
-	if r := recover(); r != nil {
-		switch x := r.(type) {
-		case string:
-			err = errors.New(x)
-		case error:
-			err = x
-		default:
-			err = fmt.Errorf("Unknown panic:%v", r)
-		}
-	}
-	return err
-}
-
+// err的创建
 func New(text string) error {
-	return errorsString{text}
+	return &errorsString{text}
 }
 
-// errorString is a trivial implementation of error.
 type errorsString struct {
 	s string
 }
