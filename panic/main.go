@@ -11,7 +11,7 @@ func main() {
 	// panic被捕获之后,可以继续往下执行
 	// testError()
 	// afterErrorfunc()
-
+	// Compile()
 }
 
 func handlePanic() (err error) {
@@ -66,4 +66,38 @@ func catch() {
 
 func afterErrorfunc() {
 	fmt.Println("遇到错误之后 func ")
+}
+
+// effective go示例
+type Error string
+
+func (e Error) Error() string {
+	return string(e)
+}
+
+type Regexp struct{}
+
+func (regexp *Regexp) error(err string) {
+	panic(Error(err))
+}
+func (regexp *Regexp) doParse() *Regexp {
+	panic("出现panic")
+	return &Regexp{}
+}
+
+func new() *Regexp {
+	return &Regexp{}
+}
+
+// Compile returns a parsed representation of the regular expression.
+func Compile() (regexp *Regexp, err error) {
+	regexp = new()
+	// doParse will panic if there is a parse error.
+	defer func() {
+		if e := recover(); e != nil {
+			regexp = nil    // Clear return value.
+			err = e.(Error) // Will re-panic if not a parse error.
+		}
+	}()
+	return regexp.doParse(), nil
 }

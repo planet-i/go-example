@@ -3,17 +3,19 @@ package main
 import "fmt"
 
 func main() {
-	x, y := 1, 2
-	defer func(a int) {
-		println("defer:x,y = ", a, y) //y为闭包引用
-	}(x) //注册时复制调用函数
-	x += 100
-	y += 200
-	println(x, y)
-	//----延迟函数的运行时机
-	DeferAndReturn()
-	DeferAndReEnd()
-	DeferAndPanic()
+	//x, y := 1, 2
+	//defer func(a int) {
+	//	println("defer:x,y = ", a, y) //y为闭包引用
+	//}(x) //注册时复制调用函数
+	//x += 100
+	//y += 200
+	//println(x, y)
+	////----延迟函数的运行时机
+	//DeferAndReturn()
+	//DeferAndReEnd()
+	//DeferAndPanic()
+	a := a()
+	fmt.Println(a)
 }
 
 func DeferAndReturn() {
@@ -34,4 +36,15 @@ func DeferAndPanic() {
 	fmt.Println(3)
 	panic("panic")
 	//fmt.Println(4)
+}
+
+func a() (i int) {
+	i = 1
+	defer func() {
+		fmt.Println(i)
+		i = 2
+	}()
+
+	return 3
+	// i=1 i=3 defer i=2 return
 }
