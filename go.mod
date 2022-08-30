@@ -11,6 +11,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/mikespook/gorbac v2.3.0+incompatible
+	github.com/mozillazg/go-pinyin v0.19.0 // indirect
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

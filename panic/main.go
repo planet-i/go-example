@@ -3,11 +3,13 @@ package main
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 func main() {
-	err := handlePanic()
-	fmt.Println("main 函数得到错误:", err)
+	testnil("aaa")
+	// err := handlePanic()
+	// fmt.Println("main 函数得到错误:", err)
 	// panic被捕获之后,可以继续往下执行
 	// testError()
 	// afterErrorfunc()
@@ -100,4 +102,32 @@ func Compile() (regexp *Regexp, err error) {
 		}
 	}()
 	return regexp.doParse(), nil
+}
+
+var (
+	m sync.Map
+)
+
+type a struct {
+	x      int
+	y      string
+	status chan string
+}
+
+func testnil(s string) {
+	v, ok := m.Load(1)
+	var down *a
+	if !ok {
+		aa := &a{
+			x: 22,
+			y: "sl",
+		}
+		m.Store(aa, 1)
+		fmt.Println("存进去了")
+	} else {
+		if down, ok = v.(*a); !ok {
+			fmt.Println("拿到了")
+		}
+	}
+	down.status <- s
 }

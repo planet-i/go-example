@@ -2,8 +2,18 @@ package main
 
 import "fmt"
 
+type a struct {
+	aa int
+	bb bool
+}
+
 func main() {
+	var c a
+	c.aa = 1
 	var s1 []int
+	a := append(s1, 2)
+	fmt.Println(s1)
+	fmt.Println(a)
 	s2 := []int{}
 	s3 := make([]int, 0)
 	fmt.Println(s1 == nil)
