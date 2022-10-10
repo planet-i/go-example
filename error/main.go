@@ -59,6 +59,6 @@ func b() error {
 }
 
 func c() error {
-	return ErrCreat
-	//return errors.WithStack(ErrCreat)
+	// return ErrCreat
+	return errors.WithStack(ErrCreat)
 }
