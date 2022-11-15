@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
 func main() {
-	Trans()
+	//Trans()
+	//aa()
+	bb()
 	// const TimeLayout = "2006-01-02 15:04:05"
 	// fmt.Println(time.Now())
 	// fmt.Println(time.Now().Unix()) //将t表示为Unix时间，即从时间点January 1, 1970 UTC到时间点t所经过的时间（单位秒）。
@@ -30,4 +33,14 @@ func Trans() {
 	str := "2022-08-31T09:36:14.934041+08:00"
 	t1, err := time.Parse("2006-01-02 15:04:05", str)
 	fmt.Println(t1, err)
+}
+func aa() {
+	fmt.Println(time.Now().Unix())
+	b := strconv.FormatInt(time.Now().Unix(), 10)
+	fmt.Println(b)
+}
+
+func bb() {
+	fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Println(time.Now().Local().Format("2006-01-02 15:04:05"))
 }
