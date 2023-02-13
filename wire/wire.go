@@ -1,10 +1,13 @@
+//go:build wireinject
+// +build wireinject
+
 package main
 
 import (
 	"github.com/google/wire"
 )
 
-func InitRoot(name string) Root {
-	wire.Build(NewLeaf, NewBranch, NewRoot)
-	return Root{}
+func initializeEvent() *Event {
+	wire.Build(NewEvent, NewGreeter, NewMessage)
+	return nil
 }

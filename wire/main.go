@@ -1,23 +1,44 @@
 package main
 
-type Leaf struct {
-	Name string
+import (
+	"fmt"
+)
+
+type Message string
+
+func NewMessage() Message {
+	return Message("hi here!")
 }
 
-type Branch struct {
-	L Leaf
+type Greeter struct {
+	Message Message
 }
 
-type Root struct {
-	B Branch
+func NewGreeter(m Message) *Greeter {
+	return &Greeter{Message: m}
 }
 
-func NewLeaf(name string) Leaf {
-	return Leaf{Name: name}
+func (g *Greeter) Greet() Message {
+	return g.Message
 }
-func NewBranch(l Leaf) Branch {
-	return Branch{L: l}
+
+type Event struct {
+	Greeter *Greeter
 }
-func NewRoot(b Branch) Root {
-	return Root{B: b}
+
+func NewEvent(greeter *Greeter) *Event {
+	return &Event{Greeter: greeter}
+}
+func (e *Event) Start() {
+	msg := e.Greeter.Greet()
+	fmt.Println(msg)
+}
+
+func main() {
+	// message := NewMessage()
+	// greeter := NewGreeter(message)
+	// event := NewEvent(greeter)
+	// event.Start()
+	event := initializeEvent()
+	event.Start()
 }
