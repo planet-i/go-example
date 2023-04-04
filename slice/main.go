@@ -3,37 +3,46 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strings"
 	"sync"
 )
 
 func main() {
-	createSlice()
+	// createSlice()
 	// 切片反转
 	s := []string{"a", "b", "c", "d", "e", "f", "g"}
 	RecoverSlice(s)
-	// 切片的深浅拷贝
-	createBySlice()
-	createByCopy()
-	// 切片并发读写
-	concurrentSliceNotForceIndex()
-	concurrentSliceForceIndex()
-	concurrentSliceWithMutex()
-	concurrentSliceWithMutexPro()
-	concurrentSliceWithChan()
-	concurrentWriteMap()
+	// // 切片的深浅拷贝
+	// createBySlice()
+	// createByCopy()
+	// // 切片并发读写
+	// concurrentSliceNotForceIndex()
+	// concurrentSliceForceIndex()
+	// concurrentSliceWithMutex()
+	// concurrentSliceWithMutexPro()
+	// concurrentSliceWithChan()
+	// concurrentWriteMap()
+	fmt.Println("判断字符串是否在切片中存在")
+	strRepeats := []string{"ba", "ca", "da", "da", "da", "ka", "ma", "ma", "ta"}
+	fmt.Println(IsStringInSlice1(strRepeats, "ma"))
+	fmt.Println(IsStringInSlice2(strRepeats, "ma"))
+	fmt.Println(IsStringInSlice3(strRepeats, "ma"))
+	// 测试slice参数传递
+	TestparamSliceToFunc()
 }
 
 // RecoverSlice 切片反转
 func RecoverSlice(a []string) {
-	var old []string
-	copy(a, old)
-	n := len(a)
+	new := make([]string, len(a))
+	copy(new, a)
+	n := len(new)
 	for i := 0; i < n/2; i++ {
-		a[i], a[len(a)-i-1] = a[len(a)-i-1], a[i]
+		new[i], new[n-i-1] = new[n-i-1], new[i]
 	}
-	fmt.Printf("old=%v,new=%v", old, a)
+	fmt.Printf("old=%v,new=%v", a, new)
 }
 
+// 创建切片
 func createSlice() {
 	var s1 []int
 	s2 := []int{}
@@ -221,4 +230,52 @@ func concurrentWriteMap() {
 		return true
 	})
 	fmt.Printf("final len(sl)=%d [WriteMap]\n", len)
+}
+
+// ----------- 判断字符串在某个字符串切片中是否存在
+func IsStringInSlice1(strSlice []string, str string) bool {
+	for _, s := range strSlice {
+		if s == str {
+			return true
+		}
+	}
+	return false
+}
+
+func IsStringInSlice2(strSlice []string, str string) bool {
+	tmpSlice := make([]string, len(strSlice))
+	copy(tmpSlice, strSlice)
+	sort.Strings(tmpSlice)
+	index := sort.SearchStrings(tmpSlice, str)
+	if index < len(tmpSlice) && tmpSlice[index] == str {
+		return true
+	}
+	return false
+}
+
+func IsStringInSlice3(strSlice []string, str string) bool {
+	tmpSlice := make([]string, len(strSlice))
+	copy(tmpSlice, strSlice)
+	sort.Strings(tmpSlice)
+	_, found := sort.Find(len(tmpSlice), func(i int) int {
+		return strings.Compare(str, tmpSlice[i])
+	})
+	return found
+}
+
+// --- 测试参数传递slice，因为最初共用底层数组，数据会如何相互影响
+func TestparamSliceToFunc() {
+	test := make([]int, 1, 2)
+	fmt.Printf("原始slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", test, len(test), cap(test), &test, &test[0])
+	paramSliceToFunc(test)
+	fmt.Printf("最终slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", test, len(test), cap(test), &test, &test[0])
+}
+
+func paramSliceToFunc(temp []int) {
+	temp[0] = 1 // sice参数，他们共用一个底层数组，修改temp会修改test
+	fmt.Printf("参数slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", temp, len(temp), cap(temp), &temp, &temp[0])
+	temp = append(temp, 2) // append后修改了底层数组，没有扩容，但是上层len没变所以感知不到。
+	fmt.Printf("append后的slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", temp, len(temp), cap(temp), &temp, &temp[0])
+	temp = append(temp, 3) // 再次append后，扩容了，底层数组变了，与上层不互相影响了
+	fmt.Printf("再append后的slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", temp, len(temp), cap(temp), &temp, &temp[0])
 }
