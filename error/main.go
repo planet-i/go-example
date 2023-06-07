@@ -36,7 +36,7 @@ func NewError() {
 
 // errors第三方库的使用
 func TestErrors() {
-	num := 1
+	num := 4
 	// 输出错误信息，不包含堆栈
 	fmt.Printf("%s\n", a(num))
 	fmt.Printf("%T %v\n", errors1.Cause(a(num)), errors1.Cause(a(num)))
@@ -53,21 +53,29 @@ func a(num int) error {
 		return c()
 	case 3:
 		return d()
+	case 4:
+		return e()
 	}
 	return nil
 }
 
 func b() error {
 	// return errors1.New("new error")
-	aa := "hh"
+	aa := "bbb"
 	return errors1.Errorf("new error %s", aa)
 }
 
 func c() error {
-	err := errors.New("aaa")
+	err := errors.New("ccc")
 	return errors1.Wrap(err, "warp error")
 }
+
 func d() error {
-	err := errors.New("aaa")
+	err := errors.New("ddd")
+	return err
+}
+
+func e() error {
+	err := fmt.Errorf("eee:%w", errors.New("错误"))
 	return err
 }

@@ -8,27 +8,29 @@ import (
 )
 
 func main() {
-	// createSlice()
+	// // createSlice()
 	// 切片反转
-	s := []string{"a", "b", "c", "d", "e", "f", "g"}
-	RecoverSlice(s)
-	// // 切片的深浅拷贝
-	// createBySlice()
-	// createByCopy()
-	// // 切片并发读写
-	// concurrentSliceNotForceIndex()
-	// concurrentSliceForceIndex()
-	// concurrentSliceWithMutex()
-	// concurrentSliceWithMutexPro()
-	// concurrentSliceWithChan()
-	// concurrentWriteMap()
-	fmt.Println("判断字符串是否在切片中存在")
-	strRepeats := []string{"ba", "ca", "da", "da", "da", "ka", "ma", "ma", "ta"}
-	fmt.Println(IsStringInSlice1(strRepeats, "ma"))
-	fmt.Println(IsStringInSlice2(strRepeats, "ma"))
-	fmt.Println(IsStringInSlice3(strRepeats, "ma"))
+	// s := []string{"a", "b", "c", "d", "e", "f", "g"}
+	// RecoverSlice(s)
+	// // // 切片的深浅拷贝
+	// // createBySlice()
+	// // createByCopy()
+	// // // 切片并发读写
+	// // concurrentSliceNotForceIndex()
+	// // concurrentSliceForceIndex()
+	// // concurrentSliceWithMutex()
+	// // concurrentSliceWithMutexPro()
+	// // concurrentSliceWithChan()
+	// // concurrentWriteMap()
+	// fmt.Println("判断字符串是否在切片中存在")
+	// strRepeats := []string{"ba", "ca", "da", "da", "da", "ka", "ma", "ma", "ta"}
+	// fmt.Println(IsStringInSlice1(strRepeats, "ma"))
+	// fmt.Println(IsStringInSlice2(strRepeats, "ma"))
+	// fmt.Println(IsStringInSlice3(strRepeats, "ma"))
 	// 测试slice参数传递
 	TestparamSliceToFunc()
+	// 测试slice的append
+	//appendSlice()
 }
 
 // RecoverSlice 切片反转
@@ -278,4 +280,13 @@ func paramSliceToFunc(temp []int) {
 	fmt.Printf("append后的slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", temp, len(temp), cap(temp), &temp, &temp[0])
 	temp = append(temp, 3) // 再次append后，扩容了，底层数组变了，与上层不互相影响了
 	fmt.Printf("再append后的slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", temp, len(temp), cap(temp), &temp, &temp[0])
+}
+
+func appendSlice() {
+	a := make([]int, 0, 2)
+	b := append(a, 1)                                                                             // 因为a的len是0，所以1放在底层数组下标为0的位置
+	c := append(b, 2)                                                                             // 因为a的len是0，所以2也是放在底层数组下标为0的位置
+	fmt.Printf("[a]slice:%v len:%d cap: %d slice地址:%p \n", a, len(a), cap(a), &a)                 // []
+	fmt.Printf("[b]slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", b, len(b), cap(b), &b, &b[0]) // [2]
+	fmt.Printf("[c]slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", c, len(c), cap(c), &c, &c[0]) // [2]
 }

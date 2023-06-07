@@ -39,7 +39,7 @@ func testContain() {
 	fmt.Println(z)
 }
 func main() {
-	testContain()
+	//testContain()
 	//n1 := node{
 	//	id : 100,
 	//}
@@ -49,4 +49,10 @@ func main() {
 	//}
 	//n3 := node{true,300,&n2} //按顺序初始化全部字段，不能遗漏
 	//fmt.Println(n1,n2,n3)
+	s := structParam()
+	fmt.Println(s.a, s.b)
+}
+
+func structParam() (avar aa) {
+	return avar
 }
