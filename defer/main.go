@@ -4,11 +4,12 @@ import "fmt"
 
 func main() {
 	//----延迟函数的运行时机
-	DeferAndPanic()
-	testParam()
-	fmt.Println("return", test())
-	fmt.Println("return", testName())
-	fmt.Println("return", a())
+	//DeferAndPanic()
+	//testParam()
+	testVar()
+	//fmt.Println("return", test())
+	//fmt.Println("return", testName())
+	//fmt.Println("return", a())
 }
 
 // ---- 测试defer和panic的执行顺序
@@ -62,3 +63,15 @@ func testName() (i int) {
 	}()
 	return i // 有名返回值的函数，执行 return 语句时，不会再创建临时变量保存，defer修改了i，会对返回值造成影响
 } // defer 1 return 1
+
+func testVar() (i int) {
+	i = 0
+	defer func(i int) {
+		fmt.Println("defer1", i) // defer1 0
+	}(i)
+	defer func() {
+		fmt.Println("defer2", i) // defer2 10
+	}()
+	i = 10
+	return i
+}

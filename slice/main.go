@@ -28,9 +28,11 @@ func main() {
 	// fmt.Println(IsStringInSlice2(strRepeats, "ma"))
 	// fmt.Println(IsStringInSlice3(strRepeats, "ma"))
 	// 测试slice参数传递
-	TestparamSliceToFunc()
+	//TestparamSliceToFunc()
 	// 测试slice的append
 	//appendSlice()
+	//TestSlice3()
+	testHello()
 }
 
 // RecoverSlice 切片反转
@@ -289,4 +291,30 @@ func appendSlice() {
 	fmt.Printf("[a]slice:%v len:%d cap: %d slice地址:%p \n", a, len(a), cap(a), &a)                 // []
 	fmt.Printf("[b]slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", b, len(b), cap(b), &b, &b[0]) // [2]
 	fmt.Printf("[c]slice:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", c, len(c), cap(c), &c, &c[0]) // [2]
+}
+
+func changeSlice3(arr []int) {
+	fmt.Printf("内层arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", arr, len(arr), cap(arr), &arr, &arr[0])
+	arr = append(arr, 666)
+	fmt.Printf("内层arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", arr, len(arr), cap(arr), &arr, &arr[0])
+}
+
+func TestSlice3() {
+	arr := make([]int, 0, 10)
+	arr = append(arr, 123)
+	fmt.Printf("外层arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", arr, len(arr), cap(arr), &arr, &arr[0])
+	changeSlice3(arr)
+	fmt.Printf("外层arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", arr, len(arr), cap(arr), &arr, &arr[0])
+	fmt.Println(arr)
+}
+
+func hello(num ...int) {
+	num[0] = 18
+	fmt.Printf("函数内arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", num, len(num), cap(num), &num, &num[0])
+}
+func testHello() {
+	i := []int{5, 6, 7}
+	hello(i...) // 这种情况下、num和依旧是共用同一个底层数组
+	fmt.Printf("函数外arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", i, len(i), cap(i), &i, &i[0])
+	fmt.Println(i[0])
 }

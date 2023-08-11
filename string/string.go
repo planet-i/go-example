@@ -2,16 +2,22 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
 	"unicode"
 )
 
 func main() {
-	fmt.Println(os.Args)
-	keyword := os.Args[1]
-	test(keyword)
+	// fmt.Println(os.Args)
+	// keyword := os.Args[1]
+	// test(keyword)
+	testPoint()
+}
 
+func testPoint() {
+	var a *string
+	var b *int
+	fmt.Println(&a, &b)
+	//fmt.Println(*a,&b)
 }
 
 func test(keyword string) {

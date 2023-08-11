@@ -94,3 +94,17 @@ func Iojson() {
 		}
 	}
 }
+
+func testUnMarshal() {
+	var str = "{\"value\":\"aa\"}"
+	var a struct {
+		Value string `json:"value"` // 无论结构体中的字段是否写全，都不影响json转换。但是大小写影响
+	}
+	fmt.Println(a)
+	data := []byte(str)
+	err := json.Unmarshal(data, &a)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println(a)
+}
