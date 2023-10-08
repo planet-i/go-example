@@ -1,32 +1,34 @@
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import hashes
 import base64
+import hashlib
+import rsa
 
-# 公钥字符串
-user_public_key = """
------BEGIN PUBLIC KEY-----
-xxxxxxx
------END PUBLIC KEY-----
-"""
 
-# 要加密的密码
-password = "Aa123456789+".encode()  # 需要将密码编码为字节串
+def md5_ecc(str):
+    md = hashlib.md5()  # 创建md5对象
+    md.update(str.encode(encoding='utf-8'))
+    return md.hexdigest()
 
-# 将公钥字符串解析为公钥对象
-public_key = serialization.load_pem_public_key(user_public_key.encode(), backend=default_backend())
+def rsa_ecc(str):
+    msg = str.encode()
+    # msg = b'aaaaaaaaa-4444'
+    public_key_str = '-----BEGIN PUBLIC KEY-----\nxxxxxxxx\n-----END PUBLIC KEY-----\n'
+    # (pub_key, priv_key) = rsa.newkeys(256)
+    public_key = rsa.PublicKey.load_pkcs1_openssl_pem(public_key_str.encode())
+    ctxt = rsa.encrypt(msg, public_key)
+    print(base64.b64encode(ctxt).decode())
+    return (base64.b64encode(ctxt).decode())
 
-# 加密数据
-encrypted_data = public_key.encrypt(
-    password,
-    padding.OAEP(
-        mgf=padding.MGF1(algorithm=hashes.SHA256()),
-        algorithm=hashes.SHA256(),
-        label=None
-    )
-)
-
-# 将加密后的数据转换为 Base64 字符串
-base64_encrypted_data = base64.b64encode(encrypted_data).decode()
-print(base64_encrypted_data)
+def login(user_name=name, password=pwd):
+    """
+    用户登录，默认admin用户
+    :param user_name:
+    :param password:
+    :return:
+    """
+    url = "/api/as/user/login"
+    data = {"loginId": user_name, "password": rsa_ecc(md5_ecc(password)), "from": 0, "type": 0}
+    status_code, response_data = req.post(url=url, params=data)
+    if response_data.get('code') == 200 and response_data.get("result"):
+        return response_data['result']['token'], response_data['result']['info']['root_ids']
+    else:
+        raise Exception("Error! User login fail!!!")
