@@ -1,14 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
 	//----延迟函数的运行时机
-	//testPanic()
+	deferExit()
+	testPanic()
+	// return的返回值是有名返回值或者是指针的时候，defer才会对return的值造成影响
 	testReturn()
 	fmt.Println("return", testReturnNoName())
 	fmt.Println("return", testReturnHaveName())
+	fmt.Println("return", *testReturnPointer())
+	// defer后的函数带参数的时候，会临时先将参数值记录下来
 	testParam()
+	// defer后的函数带的参数也是函数的话，也会先执行好
 	testCalc()
 }
 
@@ -57,6 +65,20 @@ func testReturnHaveName() (i int) {
 	return i // 有名返回值的函数，执行 return 语句时，不会再创建临时变量保存，defer修改了i，会对返回值造成影响
 } // defer 1 return 1
 
+// testReturnPointer 返回无名指针，defer也会对返回值造成影响
+func testReturnPointer() *int {
+	var i int
+	defer func() {
+		i++
+		fmt.Println("defer2:", i)
+	}()
+	defer func() {
+		i++
+		fmt.Println("defer1:", i)
+	}()
+	return &i
+}
+
 // ---- 测试defer函数带参数
 func testParam() {
 	fmt.Println("-------testParam")
@@ -86,4 +108,12 @@ func calc(index string, a, b int) int {
 	ret := a + b
 	fmt.Println(index, a, b, ret)
 	return ret
+}
+
+// deferExit 在os.Exit函数之前的defer不会执行
+func deferExit() {
+	defer func() {
+		fmt.Println("defer")
+	}()
+	os.Exit(0)
 }
