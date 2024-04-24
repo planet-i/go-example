@@ -69,7 +69,7 @@ func writeValues(values []int, outfile string) error {
 	return nil
 }
 
-func main() {
+func main1() {
 	flag.Parse()
 
 	if infile != nil {

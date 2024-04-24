@@ -10,7 +10,8 @@ func main() {
 	// fmt.Println(os.Args)
 	// keyword := os.Args[1]
 	// test(keyword)
-	testPoint()
+	//testPoint()
+	getPartDir("阳光电影www ygdy8.com.长津湖之水门桥.2022.BD.1080P.国语中字_20230811114016.mp4")
 }
 
 func testPoint() {
@@ -18,6 +19,12 @@ func testPoint() {
 	var b *int
 	fmt.Println(&a, &b)
 	//fmt.Println(*a,&b)
+}
+
+func getPartDir(filename string) string {
+	fmt.Println("1111111111111111111", strings.SplitN(filename, ".", 2))
+	fmt.Println(strings.SplitN(filename, ".", 2)[0])
+	return strings.SplitN(filename, ".", 2)[0]
 }
 
 func test(keyword string) {

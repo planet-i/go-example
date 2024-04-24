@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 
@@ -9,12 +10,13 @@ import (
 )
 
 func main() {
-	a := firstLetter("世c界yug")
-	fmt.Println(a)
-	b := FirstLetterOfPinYin("世界shijirhijie")
-	fmt.Println(b)
-	c := FirstLetterOfString("g世界hi")
-	fmt.Println(c)
+	// a := firstLetter("世c界yug")
+	// fmt.Println(a)
+	// b := FirstLetterOfPinYin("世界shijirhijie")
+	// fmt.Println(b)
+	// c := FirstLetterOfString("g世界hi")
+	// fmt.Println(c)
+	GetExt()
 }
 
 // 获取字符串的第一个字
@@ -56,4 +58,9 @@ func FirstLetterOfString(s string) string {
 		return a
 	}
 	return ""
+}
+
+func GetExt() {
+	var a = "gggg.pdf.txt"
+	fmt.Println(strings.TrimPrefix(a, "."))
 }
