@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
@@ -32,7 +33,19 @@ func main() {
 	// 测试slice的append
 	//appendSlice()
 	//TestSlice3()
-	testHello()
+	// testHello()
+	var source = []string{"red", "blue"}
+	jstr, err := sliceToJson(source)
+	if err != nil {
+		fmt.Println(err)
+	}
+	jjson := "{\"red\":\"红色\",\"blue\":\"蓝色\"}"
+	fmt.Println(jstr)
+	s, err := jsonToSlice(source, jjson)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(s)
 }
 
 // RecoverSlice 切片反转
@@ -317,4 +330,39 @@ func testHello() {
 	hello(i...) // 这种情况下、num和依旧是共用同一个底层数组
 	fmt.Printf("函数外arr:%v len:%d cap: %d slice地址:%p 底层数组地址:%p\n", i, len(i), cap(i), &i, &i[0])
 	fmt.Println(i[0])
+}
+
+func sliceToJson(slice []string) (string, error) {
+	// 创建一个 map 用来存放字符串切片中的元素作为键和值
+	mapFromSlice := make(map[string]string)
+
+	for _, item := range slice {
+		mapFromSlice[item] = item
+	}
+
+	// 将 map 序列化为 JSON 字符串
+	jsonStr, err := json.Marshal(mapFromSlice)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonStr), nil
+}
+
+// 解析 JSON 字符串并返回一个切片
+func jsonToSlice(source []string, jsonStr string) ([]string, error) {
+	var data map[string]string
+
+	// 解析 JSON 字符串到 map[string]string
+	err := json.Unmarshal([]byte(jsonStr), &data)
+	if err != nil {
+		return nil, err
+	}
+
+	// 从 map 中提取值并放入切片
+	var values []string
+	for _, value := range source {
+		values = append(values, data[value])
+	}
+
+	return values, nil
 }

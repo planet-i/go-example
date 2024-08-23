@@ -48,9 +48,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 type MyStruct struct {
@@ -60,12 +62,38 @@ type MyStruct struct {
 }
 
 func main() {
-	jsonString := `{"Name": "John", "Time": "2023-02-13T08:54:19.190735Z","DTime":null}`
-	var myStruct MyStruct
-	err := json.Unmarshal([]byte(jsonString), &myStruct)
+	//a()
+	b()
+	//c()
+}
+
+func a() {
+	begin := time.Now().AddDate(0, 0, -7).Format("20060102")
+	beginInt, err := strconv.ParseInt(begin, 10, 64)
 	if err != nil {
-		fmt.Println(err)
+		logrus.Debugf(" strconv.ParseInt(begin, 10, 64): %s", err)
+	}
+	end := time.Now().Format("20060102")
+	endInt, err := strconv.ParseInt(end, 10, 64)
+	if err != nil {
+		logrus.Debugf(" strconv.ParseInt(end, 10, 64): %s", err)
+	}
+	fmt.Println(beginInt, endInt)
+}
+
+func b() {
+	var enhour int64 = 1723098972
+	m := time.Unix(enhour, 0).Format("2006-01-02 15:04:05")
+	fmt.Println(m)
+}
+
+func c() {
+	str := "2024082122"
+	layout := "2006010215"
+	t, err := time.Parse(layout, str)
+	if err != nil {
+		fmt.Println("Error parsing time:", err)
 		return
 	}
-	fmt.Println(myStruct.Name, myStruct.Time, myStruct.DTime)
+	fmt.Println(t.Format("2006-01-02 15")) // 格式化为易读时间
 }

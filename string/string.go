@@ -34,7 +34,8 @@ func test(keyword string) {
 	fmt.Println(keyword)
 }
 
-/**
+/*
+*
 判断是否为字母： unicode.IsLetter(v)
 判断是否为十进制数字： unicode.IsDigit(v)
 判断是否为数字： unicode.IsNumber(v)
