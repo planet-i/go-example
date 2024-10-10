@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	_ "image/gif"
@@ -17,8 +18,11 @@ import (
 )
 
 func main() {
-	TestImage()
+	testImage()
+	testExport()
+}
 
+func testExport() {
 	f := excelize.NewFile()             //新建excel文件
 	f.SetCellValue("Sheet1", "B2", 100) //填值
 	f.SetCellValue("Sheet1", "A1", 90)
@@ -91,6 +95,7 @@ func testImage() {
 		{"data1", "https://xiaowandou-ecom.s3.ap-southeast-1.amazonaws.com/upload/8b21d4e83432fe5d96638945baed3ee7.jpg"},
 		{"data2", "https://cdn.unitemagic.com/upload/337c13d813fe46361f9b73f3558678a8.jpeg"},
 		{"data3", "https://imgcdn.umcasual.com/um_ecom/66805433/upload/800d8a8ffc66878297772f389c733bf7_e772d785-0021-4521-bd55-1eae7c815adb.png"},
+		{"data4", "https://cdn.unitemagic.com/creative/880567754520275/1705562178.jpeg"},
 	}
 	imageCol := GetImageCol(headers)
 	// 插入数据和图片
@@ -115,7 +120,7 @@ func testImage() {
 				}
 				ext := GetImageExt(data)
 				fmt.Println(ext)
-				if err := f.AddPictureFromBytes(activeSheet, col, "image", image, format); err != nil {
+				if err := f.AddPictureFromBytes(activeSheet, col, "image", ext, image, format); err != nil {
 					log.Printf("f.AddPictureFromBytes err: %s", err.Error())
 				}
 				f.SetCellHyperLink(activeSheet, col, data, "External")
@@ -149,7 +154,13 @@ func ReadRemoteFile(url string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	return io.ReadAll(resp.Body)
+	buffer := bytes.NewBuffer(make([]byte, 0, 2048))
+	_, err = io.Copy(buffer, resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return buffer.Bytes(), nil
 }
 
 func GetImageCol(headers []string) string {
