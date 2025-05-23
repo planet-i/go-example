@@ -62,8 +62,16 @@ type MyStruct struct {
 }
 
 func main() {
-	fmt.Println(time.Now().Unix())
-	d()
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	nowTime := time.Now()
+	locTime := nowTime.In(loc)
+	fmt.Println(nowTime)
+	fmt.Println(locTime)
+	fmt.Println(nowTime.Format("2006-01-02 15:04:05"))
+	fmt.Println(locTime.Format("2006-01-02 15:04:05"))
+	fmt.Println(nowTime.Unix())
+	fmt.Println(locTime.Unix())
+	//d()
 	//a()
 	//b()
 	//c()

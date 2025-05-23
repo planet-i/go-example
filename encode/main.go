@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"fmt"
 )
 
 func PKCS7Padding(ciphertext []byte, blockSize int) []byte {
@@ -30,10 +29,12 @@ func EncryptAes128Ecb(origData, key []byte) ([]byte, error) {
 	return crypted, nil
 }
 func main() {
-	origData := "{\\\"userName\\\":\\\"datatom\\\",\\\"nickName\\\":\\\"德拓\\\", \\\"phone\\\":\\\"111\\\"}"
-	val, err := EncryptAes128Ecb([]byte(origData), []byte("MTY4NjgxOTI2Mw=="))
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Println(string(val))
+	testCSVReader()
+	//testCSVReaderGBK()
+	// origData := "{\\\"userName\\\":\\\"datatom\\\",\\\"nickName\\\":\\\"德拓\\\", \\\"phone\\\":\\\"111\\\"}"
+	// val, err := EncryptAes128Ecb([]byte(origData), []byte("MTY4NjgxOTI2Mw=="))
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
+	// fmt.Println(string(val))
 }

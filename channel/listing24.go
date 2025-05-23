@@ -17,7 +17,7 @@ var wg sync.WaitGroup
 func init() {
 	rand.Seed(time.Now().Unix())
 }
-func main() {
+func main1() {
 	tasks := make(chan string, taskLoad)
 	wg.Add(numberGoroutines)
 
