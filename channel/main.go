@@ -3,12 +3,15 @@ package main
 import (
 	"errors"
 	"fmt"
+	"time"
 )
 
 func main() {
-	ch := make(chan BatchData, 1)
-	go info(ch)
-	consumer(ch)
+	// ch := make(chan BatchData, 1)
+	// go info(ch)
+	// consumer(ch)
+	//GPrintNum()
+	fmt.Println(time.Now().Unix())
 }
 
 type BatchData struct {
