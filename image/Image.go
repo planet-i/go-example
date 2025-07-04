@@ -7,24 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
-	"testing"
 	"time"
 )
-
-func main() {
-	imagePath := "https://img-va.myshopline.com/image/store/1699869479480/Frog-Family-Wooden-Jigsaw-Puzzle.jpeg?w=1080&h=1080"
-	ctid, err := GenerateNewImage(imagePath)
-	if err != nil {
-		fmt.Println("GenerateNewImage:", err)
-	}
-	fmt.Println("ctid", ctid)
-	url, err := GetNewImageInfo(ctid)
-	fmt.Println("url", url)
-	if err != nil {
-		fmt.Println("GetNewImageInfo:", err)
-	}
-}
 
 type CreateImageResp struct {
 	C int `json:"c"`
@@ -34,21 +18,15 @@ type CreateImageResp struct {
 	M string `json:"m"`
 }
 
-type GetImageResp struct {
-	C int `json:"c"`
-	D struct {
-		Creative struct {
-			URL string `json:"url"`
-		} `json:"creative"`
-	} `json:"d"`
-	M string `json:"m"`
-}
-
 type PullImageReq struct {
 	Link string `json:"link"`
 }
 
+// GenerateNewImage 函数用于向指定 API 发送图片链接，生成新图片并返回其 CTID
+// 参数 imageUrl 是图片的远程链接
+// 返回值为生成图片的 CTID 和可能出现的错误
 func GenerateNewImage(imageUrl string) (int64, error) {
+	// 初始化 CTID 变量，用于存储生成图片的 CTID
 	var ctid int64
 	url := "https://imgsrv2.umcasual.com/api/v2/creative_creative"
 
@@ -63,9 +41,6 @@ func GenerateNewImage(imageUrl string) (int64, error) {
 	if err != nil {
 		return ctid, err
 	}
-
-	//req.Header.Set("Accept", "application/json, text/plain, */*")
-	//req.Header.Set("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,or;q=0.7")
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 
 	client := &http.Client{}
@@ -81,7 +56,7 @@ func GenerateNewImage(imageUrl string) (int64, error) {
 		fmt.Println("Error reading response body:", err)
 		return ctid, err
 	}
-	fmt.Sprintln(string(body))
+	fmt.Printf("GenerateNewImage response body: %s\n", string(body))
 	if resp.StatusCode == http.StatusOK {
 		var respData CreateImageResp
 		err = json.Unmarshal(body, &respData)
@@ -93,7 +68,21 @@ func GenerateNewImage(imageUrl string) (int64, error) {
 	return ctid, nil
 }
 
+type GetImageResp struct {
+	C int `json:"c"`
+	D struct {
+		Creative struct {
+			URL string `json:"url"`
+		} `json:"creative"`
+	} `json:"d"`
+	M string `json:"m"`
+}
+
+// GetNewImageInfo 函数根据 CTID 从指定 API 获取新图片的 URL
+// 参数 ctid 是生成图片的 CTID
+// 返回值为新图片的 URL 和可能出现的错误
 func GetNewImageInfo(ctid int64) (string, error) {
+	// 初始化新图片 URL 变量，用于存储获取到的新图片 URL
 	var newUrl string
 	url := fmt.Sprintf("https://imgsrv2.umcasual.com/api/v2/get_creative?ctid=%d", ctid)
 	req, err := http.NewRequest("GET", url, nil)
@@ -103,8 +92,7 @@ func GetNewImageInfo(ctid int64) (string, error) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request:", err)
-		return newUrl, err
+		return newUrl, fmt.Errorf("Error sending request: %v", err)
 	}
 	defer resp.Body.Close()
 
@@ -112,6 +100,7 @@ func GetNewImageInfo(ctid int64) (string, error) {
 	if err != nil {
 		return newUrl, err
 	}
+	fmt.Printf("GetNewImageInfo response body: %s\n", string(body))
 	if resp.StatusCode == http.StatusOK {
 		var respData GetImageResp
 		err = json.Unmarshal(body, &respData)
@@ -123,16 +112,10 @@ func GetNewImageInfo(ctid int64) (string, error) {
 	return newUrl, nil
 }
 
-func GetFilenameFromUrl(url string) (filename, filename2 string) {
-	arr := strings.Split(url, "/")
-	if len(arr) >= 1 {
-		filename = arr[len(arr)-1]
-
-		filename2 = strings.Split(filename, ".")[0]
-	}
-	return
-}
-
+// ReadRemoteFile 函数从指定的远程 URL 读取文件内容
+// 参数 url 是文件的远程链接
+// 返回值为文件内容的字节切片和可能出现的错误
+// 可以通过这个，读取图片的数据然后导出到文件的时候显示图片
 func ReadRemoteFile(url string) ([]byte, error) {
 	result := make([]byte, 0)
 	if url == "" {
@@ -157,27 +140,4 @@ func ReadRemoteFile(url string) ([]byte, error) {
 	}
 
 	return buffer.Bytes(), nil
-}
-
-// 测试函数
-func TestGenerateNewImage(t *testing.T) {
-	// 调用函数
-	imagePath := "https://img-va.myshopline.com/image/store/1699869479480/Frog-Family-Wooden-Jigsaw-Puzzle.jpeg?w=1080&h=1080"
-	result, err := GenerateNewImage(imagePath)
-	fmt.Println(result)
-	// 验证结果
-	if err != nil {
-		t.Errorf("Expected no error, but got: %v", err)
-	}
-}
-
-func TestGetNewImage(t *testing.T) {
-	// 调用函数
-	var ctid int64 = 67192694769465
-	result, err := GetNewImageInfo(ctid)
-	fmt.Println(result)
-	// 验证结果
-	if err != nil {
-		t.Errorf("Expected no error, but got: %v", err)
-	}
 }

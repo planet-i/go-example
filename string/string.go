@@ -345,7 +345,7 @@ func generateFields(model interface{}) string {
 	return strings.Join(fields, "\n")
 }
 
-func main() {
+func test11() {
 	// shopInfo := GQLShopInfo{}
 	// fragment := generateFragment("shopFields", "Shop", shopInfo)
 	// fmt.Println(fragment)

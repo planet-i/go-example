@@ -11,15 +11,15 @@ import (
 	"github.com/mozillazg/go-pinyin"
 )
 
-func main() {
-	// a := firstLetter("世c界yug")
-	// fmt.Println(a)
-	// b := FirstLetterOfPinYin("世界shijirhijie")
-	// fmt.Println(b)
-	// c := FirstLetterOfString("g世界hi")
-	// fmt.Println(c)
-	//GetExt()
-	testPrize()
+// GetFilenameFromUrl 函数从给定的 URL 中提取文件名和不带扩展名的文件名
+// 返回值为文件名和不带扩展名的文件名
+func GetFilenameFromUrl(url string) (fullName, name string) {
+	arr := strings.Split(url, "/")
+	if len(arr) >= 1 {
+		fullName = arr[len(arr)-1]
+		name = strings.Split(fullName, ".")[0]
+	}
+	return
 }
 
 // 获取字符串的第一个字
